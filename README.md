@@ -6,11 +6,13 @@ There are two ways to run:
 
 1: The **index.html** is contained in the **"dist"** directory and can be run directly.(**recommend!!!**)
 
-2: 1)Open the Terminal under the **Client** directory
+2:  (is **not** recomended)
 
-   2)if node_modules is not exist, **npm install**
+    1)Open the Terminal under the **Client** directory
+
+    2)if node_modules is not exist, **npm install**
    
-   3)**npm start**(is **not** recomended)
+    3)**npm start**
    
 **important** if you use **npm start** to load web page, you may not get local position,an error message will be display on the page.
 
