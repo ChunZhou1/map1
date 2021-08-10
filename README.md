@@ -4,13 +4,13 @@
 
 There are two ways to run:
 
-1: The **index.html** is contained in the **"dist"** directory and can be run directly.(**recommand!!!**)
+1: The **index.html** is contained in the **"dist"** directory and can be run directly.(**recommend!!!**)
 
 2: 1)Open the Terminal under the **Client** directory
 
    2)if node_modules is not exist, **npm install**
    
-   3)**npm start**(is **not** recomanded)
+   3)**npm start**(is **not** recomended)
    
 **important** if you use **npm start** to load web page, you may not get local position,an error message will be display on the page.
 
@@ -20,7 +20,7 @@ There are two ways to run:
               
               and click "index.html". 
               
-              So npm start is not recommanded.
+              So npm start is not recommended.
 
 # How to compile?
 1: Open the Terminal under the **Client** directory
