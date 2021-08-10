@@ -1,4 +1,4 @@
-# Use react + google map api + google time zone api for development
+# Using google map api and google time zone api to diaplay target position on the map and target time
 
 # How to run?
 
