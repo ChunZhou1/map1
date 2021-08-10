@@ -22,7 +22,7 @@ There are two ways to run:
               
               and click "index.html". 
               
-              So npm start is not recommended.
+             
 
 # How to compile?
 1: Open the Terminal under the **Client** directory.
