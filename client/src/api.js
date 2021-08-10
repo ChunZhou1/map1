@@ -248,7 +248,7 @@ function getTargetTime(dstOffset, rawOffset) {
   var localdate = new Date(getUTCTimeStamp() * 1000 + offsets); // Date object containing current time of target (timestamp + dstOffset + rawOffset)
   return localdate.toLocaleString();
 }
-
+//export
 const api = {
   postRequest: postRequest,
   getRequest: getRequest,
