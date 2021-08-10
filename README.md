@@ -37,7 +37,7 @@ All api functions include in the api.js file.
 
 # How to show a place on the map？
 
-### 1: Call getLocalPosition to get the local longitude and latitude,Call getLatAndLng according to the address entered by the user to get the target longitude and latitude.
+### 1: Call getLocalPosition to get the local longitude and latitude, Call getLatAndLng according to the address entered by the user to get the target longitude and latitude.
    
    ```
  function getLocalPosition() {
@@ -82,7 +82,7 @@ async function getLatAndLng(address) {
    
 ### 2: Display marker on the map based on longitude and latitude.
 
-### 3: Call getDistance to calculate distance between local position and target postion.
+### 3: Call getDistance to calculate distance between local position and target position.
 ```
 function getDistance(lat1, lng1, lat2, lng2) {
   var radLat1 = (lat1 * Math.PI) / 180.0;
@@ -103,11 +103,11 @@ function getDistance(lat1, lng1, lat2, lng2) {
 }
 ```
 
-### 4: Use the distance parameter to call the changeZoom function to calculate the zoom of the map.
+### 4: Use the distance parameter to call the changeZoom function to calculate the zoom scale of the map.
 
-# How to display target time and UTC timestamp?
+# How to display target time and Time zone?
 
-### 1: Call getUTCTimeStamp function to calculate UTC timestamp.
+### 1: Call getUTCTimeStamp function to calculate .
 
 ```
 function getUTCTimeStamp() {
@@ -118,7 +118,7 @@ function getUTCTimeStamp() {
 }
 ```
 
-### 2: Call getTargetTimeInfoByPos(by calling google timezone api) to get dst offset and raw offset
+### 2: Call getTargetTimeInfoByPos(by calling google timezone api) to get dst offset, raw offset and Time zone
 
 ```
  async function getTargetTimeInfoByPos(lat, lng) {
@@ -141,7 +141,7 @@ function getUTCTimeStamp() {
   var output = await getRequest(apicall, "");
 
   if (output.status == "OK") {
-    return [output.dstOffset, output.rawOffset];
+    return [output.dstOffset, output.rawOffset, output.timeZoneId];
   } else {
     console.log("get time info error");
     return [];
@@ -159,11 +159,6 @@ function getTargetTime(dstOffset, rawOffset) {
 }
 ```
 
-# Some special considerations in the program
-
- 1: You need to disable google map display before getting the local position ,otherwise the map will not be displayed properly.
-
- 2: You need to disable google map display before changing the zoom and center of Google Maps.
 
 
 
