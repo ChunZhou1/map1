@@ -14,7 +14,7 @@ There are two ways to run:
    
     3)**npm start**
    
-**important** if you use **npm start** to load web page, you may not get local position,an error message will be display on the page.
+**important!!** if you use **npm start** to load web page, you may not get local position,an error message will be display on the page.
 
               Because Location is sensitive data! Requiring HTTPS to protect the privacy of your users' location data.
               
