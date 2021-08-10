@@ -14,9 +14,11 @@ There are two ways to run:
    
 **important** if you use **npm start** to load web page, you may not get local position,an error message will be display on the page,
 
-              because Location is sensitive data! Requiring HTTPS is required to protect the privacy of your users' location data
+              because Location is sensitive data! Requiring HTTPS to protect the privacy of your users' location data
               
-              You can change brower such as chrome and firefox(not surport safari)
+              You can use brower such as chrome and firefox(not surport safari) or you can goto  **"dist"** directory
+              
+              and click "index.html"
 
 # How to compile?
 1: Open the Terminal under the **Client** directory
