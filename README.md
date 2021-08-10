@@ -4,13 +4,19 @@
 
 There are two ways to run:
 
-1: The **index.html** is contained in the **"dist"** directory and can be run directly.
+1: The **index.html** is contained in the **"dist"** directory and can be run directly.(**recommand!!!**)
 
 2: 1)Open the Terminal under the **Client** directory
 
    2)if node_modules is not exist, **npm install**
    
    3)**npm start**
+   
+**important** if you use **npm start** to load web page, you may not get local position,an error message will be display on the page,
+
+              because Location is sensitive data! Requiring HTTPS is required to protect the privacy of your users' location data
+              
+              You can change brower such as chrome and firefox(not surport safari)
 
 # How to compile?
 1: Open the Terminal under the **Client** directory
