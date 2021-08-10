@@ -6,9 +6,9 @@ There are two ways to run:
 
 1: The **index.html** is contained in the **"dist"** directory and can be run directly.(**recommend!!!**)
 
-2: 1)Open the Terminal under the **Client** directory
+2: 1) Open the Terminal under the **Client** directory
 
-   2)if node_modules is not exist, **npm install**
+   2) if node_modules is not exist, **npm install**
    
    3)**npm start**(is **not** recomended)
    
