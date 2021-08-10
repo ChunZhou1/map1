@@ -29,7 +29,7 @@ There are two ways to run:
 
 2: **npm install**
 
-3: **npm run build"**
+3: **npm run build**
 
 # The program contains the following parts：
 
