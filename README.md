@@ -1,15 +1,35 @@
-# Use react + google map api + google time zone api for development
+# Using google map api and google time zone api to diaplay target position on the map and target time
 
 # How to run?
 
-The **index.html** is contained in the **"dist"** directory and can be run directly.
+There are two ways to run:
+
+1: The **index.html** is contained in the **"dist"** directory and can be run directly.(**recommend!!!**)
+
+2:  (Is **not** recomended)
+
+    1)Open the Terminal under the "client" directory.
+
+    2)If "node_modules" is not exist, run "npm install".
+   
+    3)Run "npm start".
+   
+**important!!** If you use **npm start** to load web page, you may not get local position,an error message will be display on the page.
+
+              Because Location is sensitive data! Requiring HTTPS to protect the privacy of your users' location data.
+              
+              You can set Chrome or firefox to default brower(not surport safari) or you can go to "dist" directory.
+              
+              and click "index.html". 
+              
+             
 
 # How to compile?
-1: Open the Terminal under the **Client** directory
+1: Open the Terminal under the **Client** directory.
 
 2: **npm install**
 
-3: **npm run build"**
+3: **npm run build**
 
 # The program contains the following parts：
 
@@ -19,7 +39,7 @@ All api functions include in the api.js file.
 
 # How to show a place on the map？
 
-### 1: Call getLocalPosition to get the local longitude and latitude,Call getLatAndLng according to the address entered by the user to get the target longitude and latitude.
+### 1: Call getLocalPosition to get the local longitude and latitude, Call getLatAndLng according to the address entered by the user to get the target longitude and latitude.
    
    ```
  function getLocalPosition() {
@@ -64,7 +84,7 @@ async function getLatAndLng(address) {
    
 ### 2: Display marker on the map based on longitude and latitude.
 
-### 3: Call getDistance to calculate distance between local position and target postion.
+### 3: Call getDistance to calculate distance between local position and target position.
 ```
 function getDistance(lat1, lng1, lat2, lng2) {
   var radLat1 = (lat1 * Math.PI) / 180.0;
@@ -85,11 +105,11 @@ function getDistance(lat1, lng1, lat2, lng2) {
 }
 ```
 
-### 4: Use the distance parameter to call the changeZoom function to calculate the zoom of the map.
+### 4: Use the distance parameter to call the changeZoom function to calculate the zoom scale of the map.
 
-# How to display target time and UTC timestamp?
+# How to display target time and Time zone?
 
-### 1: Call getUTCTimeStamp function to calculate UTC timestamp.
+### 1: Call getUTCTimeStamp function to calculate .
 
 ```
 function getUTCTimeStamp() {
@@ -100,7 +120,7 @@ function getUTCTimeStamp() {
 }
 ```
 
-### 2: Call getTargetTimeInfoByPos(by calling google timezone api) to get dst offset and raw offset
+### 2: Call getTargetTimeInfoByPos(by calling google timezone api) to get dst offset, raw offset and Time zone
 
 ```
  async function getTargetTimeInfoByPos(lat, lng) {
@@ -123,7 +143,7 @@ function getUTCTimeStamp() {
   var output = await getRequest(apicall, "");
 
   if (output.status == "OK") {
-    return [output.dstOffset, output.rawOffset];
+    return [output.dstOffset, output.rawOffset, output.timeZoneId];
   } else {
     console.log("get time info error");
     return [];
@@ -141,11 +161,6 @@ function getTargetTime(dstOffset, rawOffset) {
 }
 ```
 
-# Some special considerations in the program
-
- 1: You need to disable google map display before getting the local position ,otherwise the map will not be displayed properly.
-
- 2: You need to disable google map display before changing the zoom and center of Google Maps.
 
 
 
