@@ -79,7 +79,7 @@ function MapDisplay(props) {
 }
 
 //used to process user input and display information
-//input:local pos, user input pos,target time,timezoon
+//input:local pos, user input pos,target time,time zone
 //output: when user press enter and click search button
 
 function User_Input_Display(props) {
@@ -198,7 +198,7 @@ function Map_manage() {
   };
 
   useEffect(() => {
-    //diaplay targetTime and time zoon
+    //diaplay targetTime and time zone
     //we set up a timer
     setInterval(async () => {
       if (dstOffset != null && rawOffset != null) {
