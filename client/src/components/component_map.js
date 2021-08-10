@@ -181,7 +181,7 @@ function User_Input_Display(props) {
 function Map_manage() {
   const [zoom, setZoom] = useState(20); //zoom scale
 
-  const [loading, setLoading] = useState(false); //if display Spin
+  const [loading, setLoading] = useState(false); //display Spin
   const [localPos, setLocalPos] = useState({});
   const [center, setCenter] = useState({}); //Map center point
   const [userPos, setUserPos] = useState([]);
@@ -191,7 +191,7 @@ function Map_manage() {
   const [index, setIndex] = useState(1); //index of each target point
 
   const [modalVisble, setModalVisble] = useState(false); //if display error message dialog
-  const [message, setMessage] = useState(""); //message of dialog
+  const [message, setMessage] = useState(""); // error message
 
   const handle_ok = () => {
     setModalVisble(false);
@@ -231,7 +231,7 @@ function Map_manage() {
 
     setVisble(false);
 
-    //first we must get local position
+    //First we must get local position
 
     setLoading(true);
 
@@ -377,6 +377,8 @@ const columns = [
 function TableList(props) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
+  //delete item when user click delete button
+  //input: user position array: props.data
   const deleteItem = () => {
     function searchIndex(inputObj) {
       return inputObj.index == this;
@@ -391,6 +393,7 @@ function TableList(props) {
 
     setSelectedRowKeys([]);
 
+    //ccallback from Map_manage
     props.handle_delete(props.data);
   };
 
