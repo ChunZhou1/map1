@@ -16,7 +16,7 @@ There are two ways to run:
 
               because Location is sensitive data! Requiring HTTPS to protect the privacy of your users' location data
               
-              You can use brower such as chrome and firefox(not surport safari) or you can goto  **"dist"** directory
+              You can use brower such as chrome and firefox(not surport safari) or you can goto  dist directory
               
               and click "index.html"
 
