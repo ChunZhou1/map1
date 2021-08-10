@@ -8,24 +8,24 @@ There are two ways to run:
 
 2:  (Is **not** recomended)
 
-    1)Open the Terminal under the "client" directory
+    1)Open the Terminal under the "client" directory.
 
-    2)If "node_modules" is not exist, run "npm install"
+    2)If "node_modules" is not exist, run "npm install".
    
-    3)Run "npm start"
+    3)Run "npm start".
    
-**important!!** if you use **npm start** to load web page, you may not get local position,an error message will be display on the page.
+**important!!** If you use **npm start** to load web page, you may not get local position,an error message will be display on the page.
 
               Because Location is sensitive data! Requiring HTTPS to protect the privacy of your users' location data.
               
-              You can set Chrome or firefox to default brower(not surport safari) or you can go to dist directory
+              You can set Chrome or firefox to default brower(not surport safari) or you can go to "dist" directory.
               
               and click "index.html". 
               
               So npm start is not recommended.
 
 # How to compile?
-1: Open the Terminal under the **Client** directory
+1: Open the Terminal under the **Client** directory.
 
 2: **npm install**
 
