@@ -4,21 +4,21 @@
 
 There are two ways to run:
 
-1: The **index.html** is contained in the **"dist"** directory and can be run directly.(**recommend!!! surport all brower**)
+1: The **index.html** is contained in the **"dist"** directory and can be run directly. (**recommend!!! support all browser**)
 
 2: (Is **not** recomended)
 
     1)Open the Terminal under the "client" directory.
 
-    2)If "node_modules" is not exist, run "npm install".
+    2)If "node_modules" do not exist, run "npm install".
 
     3)Run "npm start".
 
-**important!!** If you use **npm start** to load web page, You may possibly not get the local position, an error message will be displayed on the page.
+**important!!** If you use **npm start** to load the web page, You may possibly not get the local position, an error message will be displayed on the page.
 
               Because Location is sensitive data! Requiring HTTPS to protect the privacy of your users' location data.
 
-              You can set Chrome or firefox to default brower(not surport safari) or you can go to "dist" directory.
+             You can set Chrome or Firefox to the default browser(not support safari) or you can go to "dist" directory.
 
               and click "index.html".
 
@@ -38,9 +38,9 @@ Searching user position is triggered by both button click, and press enter key o
 
 # The program contains the following parts：
 
-The component_map.js in the compoents directory contains the components on the page.
+The component_map.js in the components directory contains the components on the page.
 
-All api functions include in the api.js file.
+All API functions include in the api.js file.
 
 # How to show a place on the map？
 
