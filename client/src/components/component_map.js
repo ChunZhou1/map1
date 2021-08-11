@@ -18,7 +18,6 @@ import home from "../../images/home.png";
 import target from "../../images/arrow.png";
 import { async } from "regenerator-runtime";
 
-var enter = false;
 var dstOffset = null;
 var rawOffset = null;
 
@@ -87,6 +86,8 @@ function User_Input_Display(props) {
   const refAddress = useRef(null); //ref of the input
   const [hovered, setHovered] = useState(false); //Popover visble
 
+  var enter = false;
+
   const handle_mouseDown = (e) => {
     //We begin to monitor keyboard when user click search
     window.addEventListener("keydown", handle_keyDown);
@@ -94,6 +95,7 @@ function User_Input_Display(props) {
 
   const handle_mouseUp = async () => {
     //when mouse up ,we will determin what should we do
+    console.log(enter);
     if (enter) {
       //if you have already pressed enter and click search,we can search
       await props.handle_search(refAddress.current.state.value);
@@ -216,14 +218,19 @@ function Map_manage() {
   useEffect(() => {
     //diaplay targetTime
     //we set up a timer
-    setInterval(() => {
-      if (dstOffset != null && rawOffset != null) {
-        setTargetTime(api.getTargetTime(dstOffset, rawOffset));
-      } else {
-        setTargetTime("");
-        setTimeZone("");
-      }
-    }, 500);
+
+    setInterval(
+      () => {
+        if (dstOffset != null && rawOffset != null) {
+          setTargetTime(api.getTargetTime(dstOffset, rawOffset));
+        } else {
+          setTargetTime("");
+          setTimeZone("");
+        }
+      },
+
+      500
+    );
   }, []);
 
   //get dstOffset, rawOffset to display target time and set time zone
@@ -289,10 +296,10 @@ function Map_manage() {
     //when local position is not searched,we will search local position first
 
     if (localPos.lat == undefined) {
-      //Local position is not exist, we must get local position;
+      //Local position do not exist, we must get local position;
       posLocal = await getLocalPosition();
     } else {
-      //local position is exist,we should not get local position
+      //local position exist,we should not get local position
       posLocal = localPos;
     }
 
@@ -443,7 +450,7 @@ function TableList(props) {
 
   ///create data
   var data = [];
-  for (var i = 0; i < props.data.length; i++) {
+  for (var i = props.data.length - 1; i >= 0; i--) {
     data.push({
       key: props.data[i].index,
       index: props.data[i].index,
