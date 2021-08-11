@@ -4,7 +4,7 @@
 
 There are two ways to run:
 
-1: The **index.html** is contained in the **"dist"** directory and can be run directly.(**recommend!!!**)
+1: The **index.html** is contained in the **"dist"** directory and can be run directly.(**recommend!!! surport all brower**)
 
 2: (Is **not** recomended)
 
