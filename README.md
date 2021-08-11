@@ -14,7 +14,7 @@ There are two ways to run:
 
     3)Run "npm start".
 
-**important!!** If you use **npm start** to load web page, you may not get local position,an error message will be display on the page.
+**important!!** If you use **npm start** to load web page, You may possibly not get the local position, an error message will be displayed on the page.
 
               Because Location is sensitive data! Requiring HTTPS to protect the privacy of your users' location data.
 
@@ -25,6 +25,7 @@ There are two ways to run:
 # Notice
 
 search button support user location acquisition from browser
+
 Searching user position is triggered by both button click, and press enter key on the keyboard **at the same time**
 
 # How to compile?
