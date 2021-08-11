@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 
 import "antd/dist/antd.css";
 
-import { Button, Input, Spin, Table, Modal } from "antd";
+import { Button, Input, Spin, Table, Modal, Popover } from "antd";
 import { Row, Col } from "antd";
 
 import { fixControlledValue } from "antd/lib/input/Input";
@@ -18,6 +18,7 @@ import home from "../../images/home.png";
 import target from "../../images/arrow.png";
 import { async } from "regenerator-runtime";
 
+var enter = false;
 var dstOffset = null;
 var rawOffset = null;
 
@@ -84,40 +85,46 @@ function MapDisplay(props) {
 
 function User_Input_Display(props) {
   const refAddress = useRef(null); //ref of the input
-  const [enter, setEnter] = useState(false); //valid if user press enter
-  const [click, setClick] = useState(false); //valid if user click search button
-
-  useEffect(() => {
-    //add event listener to monitor if user press enter
-    window.addEventListener("keydown", handle_keyDown);
-    window.addEventListener("keyup", handle_keyUp);
-  }, []);
+  const [hovered, setHovered] = useState(false); //Popover visble
 
   const handle_mouseDown = (e) => {
-    setClick(true);
+    //We begin to monitor keyboard when user click search
+    window.addEventListener("keydown", handle_keyDown);
   };
 
-  const handle_mouseUp = () => {
-    setClick(false);
+  const handle_mouseUp = async () => {
+    //when mouse up ,we will determin what should we do
+    if (enter) {
+      //if you have already pressed enter and click search,we can search
+      await props.handle_search(refAddress.current.state.value);
+    } else {
+      //if you only click search, we get local position
+      await props.handle_getLocalPosition();
+    }
+
+    enter = false;
   };
 
   const handle_keyDown = (e) => {
+    //user press enter,then we set enter and we will not monitor key down
     if (e.code == "Enter") {
-      setEnter(true);
+      enter = true;
+      window.removeEventListener("keydown", handle_keyDown);
     }
   };
 
-  const handle_keyUp = () => {
-    setEnter(false);
+  const hoverContent = (
+    <div>
+      <p>This button support user location acquisition from browser.</p>
+      <p>
+        Searching user position is triggered by both button click, and press
+        enter key on the keyboard at the same time
+      </p>
+    </div>
+  );
+  const handleHoverChange = (visible) => {
+    setHovered(visible);
   };
-
-  //both button click, and press enter key on the keyboard
-  if (enter && click) {
-    setClick(false);
-    setEnter(false);
-    // callback from the Map_manage
-    props.onClick(refAddress.current.state.value);
-  }
 
   return (
     <div style={{ marginTop: "2%", marginLeft: "10%" }}>
@@ -152,14 +159,23 @@ function User_Input_Display(props) {
         </Col>
 
         <Col md={6} lg={6} style={{ marginLeft: "2%" }}>
-          <Button
-            type="primary"
-            shape="round"
-            onMouseDown={handle_mouseDown}
-            onMouseUp={handle_mouseUp}
+          <Popover
+            style={{ width: 500 }}
+            content={hoverContent}
+            title="IMPORTANT"
+            trigger="hover"
+            visible={hovered}
+            onVisibleChange={handleHoverChange}
           >
-            Search
-          </Button>
+            <Button
+              type="primary"
+              shape="round"
+              onMouseDown={handle_mouseDown}
+              onMouseUp={handle_mouseUp}
+            >
+              Search
+            </Button>
+          </Popover>
         </Col>
       </Row>
 
@@ -198,41 +214,30 @@ function Map_manage() {
   };
 
   useEffect(() => {
-    //diaplay targetTime and time zone
+    //diaplay targetTime
     //we set up a timer
-    setInterval(async () => {
+    setInterval(() => {
       if (dstOffset != null && rawOffset != null) {
         setTargetTime(api.getTargetTime(dstOffset, rawOffset));
+      } else {
+        setTargetTime("");
+        setTimeZone("");
       }
     }, 500);
   }, []);
 
-  //get dstOffset, rawOffset to display target time
+  //get dstOffset, rawOffset to display target time and set time zone
   const processTimeOffsetTimeZone = async (lat, lng) => {
     var targetInfo = await api.getTargetTimeInfoByPos(lat, lng);
 
     dstOffset = targetInfo[0];
     rawOffset = targetInfo[1];
+
     setTimeZone(targetInfo[2]);
+    return;
   };
 
-  //user input address and click search,we will display address on the map and target time information
-  //This is callback function
-  async function onClick(address) {
-    if (loading == true) {
-      return;
-    }
-
-    if (address == "" || address == null || address == undefined) {
-      setMessage("address must be input");
-      setModalVisble(true);
-      return;
-    }
-
-    setVisble(false);
-
-    //First we must get local position
-
+  const getLocalPosition = async () => {
     setLoading(true);
 
     try {
@@ -253,6 +258,43 @@ function Map_manage() {
 
     setLocalPos(pos_local);
     setCenter(pos_local);
+
+    return pos_local;
+  };
+
+  //user only click search,we will get loacl posttion
+  const handle_getLocalPosition = async () => {
+    setVisble(false);
+    await getLocalPosition();
+    setVisble(true);
+  };
+
+  //user input address and click search and press enter,we will display address on the map and target time information
+  //This is callback function
+  const handle_search = async (address) => {
+    var posLocal;
+
+    if (loading == true) {
+      return;
+    }
+
+    if (address == "" || address == null || address == undefined) {
+      setMessage("address must be input");
+      setModalVisble(true);
+      return;
+    }
+
+    setVisble(false);
+
+    //when local position is not searched,we will search local position first
+
+    if (localPos.lat == undefined) {
+      //Local position is not exist, we must get local position;
+      posLocal = await getLocalPosition();
+    } else {
+      //local position is exist,we should not get local position
+      posLocal = localPos;
+    }
 
     //Get the longitude and latitude from user input
 
@@ -277,7 +319,7 @@ function Map_manage() {
     setIndex(index + 1);
 
     //get max distance to cal zoom scale
-    var distance = api.getMaxDistance(pos_local, userPos_g);
+    var distance = api.getMaxDistance(posLocal, userPos_g);
 
     //set zoom scale
     setZoom(api.changeZoom(distance));
@@ -286,7 +328,7 @@ function Map_manage() {
     await processTimeOffsetTimeZone(pos_user[0], pos_user[1]);
 
     setVisble(true);
-  }
+  };
 
   //the function used when user delete one or more position
   const handle_delete = async (data) => {
@@ -324,7 +366,8 @@ function Map_manage() {
       <User_Input_Display
         localPos={localPos}
         userPos={userPos}
-        onClick={onClick}
+        handle_search={handle_search}
+        handle_getLocalPosition={handle_getLocalPosition}
         targetTime={targetTime}
         timeZone={timeZone}
       />
@@ -391,6 +434,7 @@ function TableList(props) {
       }
     }
 
+    //set selected item =[];
     setSelectedRowKeys([]);
 
     //ccallback from Map_manage

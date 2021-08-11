@@ -6,25 +6,29 @@ There are two ways to run:
 
 1: The **index.html** is contained in the **"dist"** directory and can be run directly.(**recommend!!!**)
 
-2:  (Is **not** recomended)
+2: (Is **not** recomended)
 
     1)Open the Terminal under the "client" directory.
 
     2)If "node_modules" is not exist, run "npm install".
-   
+
     3)Run "npm start".
-   
+
 **important!!** If you use **npm start** to load web page, you may not get local position,an error message will be display on the page.
 
               Because Location is sensitive data! Requiring HTTPS to protect the privacy of your users' location data.
-              
+
               You can set Chrome or firefox to default brower(not surport safari) or you can go to "dist" directory.
-              
-              and click "index.html". 
-              
-             
+
+              and click "index.html".
+
+# Notice
+
+search button support user location acquisition from browser
+Searching user position is triggered by both button click, and press enter key on the keyboard **at the same time**
 
 # How to compile?
+
 1: Open the Terminal under the **Client** directory.
 
 2: **npm install**
@@ -40,51 +44,52 @@ All api functions include in the api.js file.
 # How to show a place on the map？
 
 ### 1: Call getLocalPosition to get the local longitude and latitude, Call getLatAndLng according to the address entered by the user to get the target longitude and latitude.
-   
-   ```
- function getLocalPosition() {
-  return new Promise((resolve, reject) => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        function (position) {
-          let latitude = position.coords.latitude;
-          let longitude = position.coords.longitude;
-          let data = {
-            latitude: latitude,
-            longitude: longitude,
-          };
 
-          resolve(data);
-        },
-        function () {
-          reject(arguments);
-        }
-      );
-    } else {
-      reject("not surport");
-    }
-  });
+```
+function getLocalPosition() {
+return new Promise((resolve, reject) => {
+ if (navigator.geolocation) {
+   navigator.geolocation.getCurrentPosition(
+     function (position) {
+       let latitude = position.coords.latitude;
+       let longitude = position.coords.longitude;
+       let data = {
+         latitude: latitude,
+         longitude: longitude,
+       };
+
+       resolve(data);
+     },
+     function () {
+       reject(arguments);
+     }
+   );
+ } else {
+   reject("not surport");
+ }
+});
 }
 
 async function getLatAndLng(address) {
-  setGeocodeAPIKey();
+setGeocodeAPIKey();
 
-  try {
-    var response = await Geocode.fromAddress(address);
+try {
+ var response = await Geocode.fromAddress(address);
 
-    const { lat, lng } = response.results[0].geometry.location;
+ const { lat, lng } = response.results[0].geometry.location;
 
-    return [lat, lng];
-  } catch (err) {
-    console.log(err);
-    return [];
-  }
+ return [lat, lng];
+} catch (err) {
+ console.log(err);
+ return [];
 }
-   ```
-   
+}
+```
+
 ### 2: Display marker on the map based on longitude and latitude.
 
 ### 3: Call getDistance to calculate distance between local position and target position.
+
 ```
 function getDistance(lat1, lng1, lat2, lng2) {
   var radLat1 = (lat1 * Math.PI) / 180.0;
@@ -160,7 +165,3 @@ function getTargetTime(dstOffset, rawOffset) {
   return localdate.toLocaleString();
 }
 ```
-
-
-
-
