@@ -89,29 +89,46 @@ try {
 
 ### 2: Display marker on the map based on longitude and latitude.
 
-### 3: Call getDistance to calculate distance between local position and target position.
+### 3: Call getCenter to calculate the center point from local postion and user postion array
 
 ```
-function getDistance(lat1, lng1, lat2, lng2) {
-  var radLat1 = (lat1 * Math.PI) / 180.0;
-  var radLat2 = (lat2 * Math.PI) / 180.0;
-  var a = radLat1 - radLat2;
-  var b = (lng1 * Math.PI) / 180.0 - (lng2 * Math.PI) / 180.0;
-  var s =
-    2 *
-    Math.asin(
-      Math.sqrt(
-        Math.pow(Math.sin(a / 2), 2) +
-          Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)
-      )
-    );
-  s = s * 6378.137; // EARTH_RADIUS;
-  s = Math.round(s * 10000) / 10000;
-  return s;
+function getCenter(localPos, userPos) {
+  var pointArray = userPos.slice(0);
+  pointArray.push(localPos);
+
+  var sortedLongitudeArray = pointArray.map((item) => item.lng).sort();
+
+  var sortedLatitudeArray = pointArray.map((item) => item.lat).sort();
+  var centerLongitude =
+    (sortedLongitudeArray[0] +
+      sortedLongitudeArray[sortedLongitudeArray.length - 1]) /2;
+
+  const centerLatitude =
+    (sortedLatitudeArray[0] +
+      sortedLatitudeArray[sortedLatitudeArray.length - 1]) /2;
+
+  return [centerLongitude, centerLatitude, pointArray];
 }
+
+
 ```
 
-### 4: Use the distance parameter to call the changeZoom function to calculate the zoom scale of the map.
+### 4: Call getMaxDistance to calculate the distance between center point and all position.
+
+### 5: Call getCenterAndZoom to get the center point and zoom scale from the local position and user position array.
+
+### 6: Set center and zoom scale to display the map.
+
+```
+   //get zoom scale and center point
+    var parm = api.getCenterAndZoom(posLocal, userPos_g);
+
+    setCenter(parm[0]);
+
+    //set zoom scale
+    setZoom(parm[1]);
+
+```
 
 # How to display target time and Time zone?
 
