@@ -14,13 +14,15 @@ There are two ways to run:
 
     3)Run "npm start".
 
-**important!!** If you use **npm start** to load the web page, You may possibly not get the local position, an error message will be displayed on the page.
+**important!!** If you use **npm start** to load the web page, You may possibly not get the local position(safari), an error message will be displayed on the page.
 
               Because Location is sensitive data! Requiring HTTPS to protect the privacy of your users' location data.
 
-             You can set Chrome or Firefox to the default browser(not support safari) or you can go to "dist" directory.
+              You can set Chrome or Firefox to the default browser when you use "npm start",
 
-              and click "index.html".
+              or you can go to "dist" directory and click "index.html" (support safari)
+
+
 
 # Notice
 
