@@ -56,7 +56,14 @@ function MapDisplay(props) {
     );
   });
   return (
-    <div style={{ height: "768px", width: "1024px", marginTop: "2%" }}>
+    <div
+      style={{
+        height: "768px",
+        width: "1024px",
+        marginTop: "2%",
+        display: "inline-block",
+      }}
+    >
       {props.visble == true && (
         <GoogleMapReact
           bootstrapURLKeys={{ key: "AIzaSyDCGh24bypgqJqTzp04ap6vjRjSk9ICqic" }}
@@ -130,7 +137,7 @@ function User_Input_Display(props) {
   };
 
   return (
-    <div style={{ marginTop: "2%", marginLeft: "10%" }}>
+    <div>
       <Row gutter={[0, 8]}>
         <Col md={24} lg={8}>
           {props.userPos.length > 0 && (
@@ -153,15 +160,15 @@ function User_Input_Display(props) {
         </Col>
       </Row>
       <Row style={{ marginTop: "2%" }}>
-        <Col md={4} lg={2}>
-          <h3>Input Address</h3>
+        <Col md={6} lg={4}>
+          <h3>Input Address&nbsp;</h3>
         </Col>
 
-        <Col md={20} lg={12}>
-          <Input ref={refAddress} />
+        <Col md={18} lg={10}>
+          <Input ref={refAddress} style={{ width: "80%" }} />
         </Col>
 
-        <Col md={6} lg={6} style={{ marginLeft: "2%" }}>
+        <Col md={6} lg={6}>
           <Popover
             style={{ width: 500 }}
             content={hoverContent}
@@ -183,11 +190,11 @@ function User_Input_Display(props) {
       </Row>
 
       <Row style={{ marginTop: "2%" }}>
-        <Col xs={8}>
+        <Col md={24} lg={8}>
           <h3>TargetTime:&nbsp;{props.targetTime}</h3>
         </Col>
 
-        <Col xs={8}>
+        <Col md={24} lg={8}>
           <h3>Time Zone:&nbsp;{props.timeZone}</h3>
         </Col>
       </Row>
@@ -381,25 +388,29 @@ function Map_manage() {
 
   return (
     <div>
-      <User_Input_Display
-        localPos={localPos}
-        userPos={userPos}
-        handle_search={handle_search}
-        handle_getLocalPosition={handle_getLocalPosition}
-        targetTime={targetTime}
-        timeZone={timeZone}
-      />
-      <div style={{ marginLeft: "10%" }}>
-        <Spin tip="Get local position,please wait..." spinning={loading}>
-          <MapDisplay
-            zoom={zoom}
-            center={center}
-            localPos={localPos}
-            userPos={userPos}
-            visble={visble}
-          />
-        </Spin>
-        <div style={{ marginTop: "5%", width: "80%" }}>
+      <div style={{ marginLeft: "25%" }}>
+        <User_Input_Display
+          localPos={localPos}
+          userPos={userPos}
+          handle_search={handle_search}
+          handle_getLocalPosition={handle_getLocalPosition}
+          targetTime={targetTime}
+          timeZone={timeZone}
+        />
+      </div>
+      <div>
+        <div style={{ textAlign: "center" }}>
+          <Spin tip="Get local position,please wait..." spinning={loading}>
+            <MapDisplay
+              zoom={zoom}
+              center={center}
+              localPos={localPos}
+              userPos={userPos}
+              visble={visble}
+            />
+          </Spin>
+        </div>
+        <div style={{ marginTop: "2%", width: "54%", marginLeft: "23%" }}>
           {userPos.length > 0 && (
             <TableList data={userPos} handle_delete={handle_delete} />
           )}
