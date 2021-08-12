@@ -1,4 +1,4 @@
-# Using google map api and google time zone api to diaplay target position on the map and target time
+# Using google map API and google time zone API to diaplay target position on the map and target time
 
 # How to run?
 
@@ -132,7 +132,7 @@ function getCenter(localPos, userPos) {
 
 # How to display target time and Time zone?
 
-### 1: Call getUTCTimeStamp function to calculate .
+### 1: Call getUTCTimeStamp function to get timestamp.
 
 ```
 function getUTCTimeStamp() {
