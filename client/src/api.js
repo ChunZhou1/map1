@@ -106,6 +106,27 @@ function getLocalPosition() {
   });
 }
 
+//get center point 
+
+function getCenter(localPos, userPos) {
+  var pointArray = userPos.slice(0);
+  pointArray.push(localPos);
+
+  var sortedLongitudeArray = pointArray.map((item) => item.lng).sort();
+
+  var sortedLatitudeArray = pointArray.map((item) => item.lat).sort();
+  var centerLongitude =
+    (sortedLongitudeArray[0] +
+      sortedLongitudeArray[sortedLongitudeArray.length - 1]) /
+    2;
+  const centerLatitude =
+    (sortedLatitudeArray[0] +
+      sortedLatitudeArray[sortedLatitudeArray.length - 1]) /
+    2;
+
+  return [centerLongitude, centerLatitude, pointArray];
+}
+
 //The function below used to get distance of two points
 
 function getDistance(lat1, lng1, lat2, lng2) {
@@ -126,20 +147,21 @@ function getDistance(lat1, lng1, lat2, lng2) {
   return s;
 }
 
-function getMaxDistance(localPos, userPos) {
+//calculate the distance between center point and all position.
+function getMaxDistance(centerPoint, pointArray) {
   var max = getDistance(
-    localPos.lat,
-    localPos.lng,
-    userPos[0].lat,
-    userPos[0].lng
+    centerPoint.lat,
+    centerPoint.lng,
+    pointArray[0].lat,
+    pointArray[0].lng
   );
 
-  for (var i = 1; i < userPos.length; i++) {
+  for (var i = 1; i < pointArray.length; i++) {
     var temp = getDistance(
-      localPos.lat,
-      localPos.lng,
-      userPos[i].lat,
-      userPos[i].lng
+      pointArray.lat,
+      pointArray.lng,
+      pointArray[i].lat,
+      pointArray[i].lng
     );
     if (temp > max) {
       max = temp;
@@ -206,6 +228,22 @@ function changeZoom(distance) {
   return 1;
 }
 
+//get center point and zoom scale
+function getCenterAndZoom(localPos, userPos) {
+  var centerPoint = new Object();
+  var centerPos = getCenter(localPos, userPos);
+  centerPoint.lng = centerPos[0];
+  centerPoint.lat = centerPos[1];
+
+  var allPoint = centerPos[2];
+
+  //cal zoom scale
+
+  var zoom = changeZoom(getMaxDistance(centerPoint, allPoint));
+
+  return [centerPoint, zoom];
+}
+
 function getUTCTimeStamp() {
   var targetDate = new Date(); // Current date/time of client
   var timestamp =
@@ -261,6 +299,7 @@ const api = {
   getTargetTimeInfoByPos: getTargetTimeInfoByPos,
   getTargetTime: getTargetTime,
   getUTCTimeStamp: getUTCTimeStamp,
+  getCenterAndZoom: getCenterAndZoom,
 };
 
 export default api;

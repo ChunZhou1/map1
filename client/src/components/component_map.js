@@ -267,6 +267,7 @@ function Map_manage() {
     setLoading(false);
 
     setLocalPos(pos_local);
+
     setCenter(pos_local);
 
     return pos_local;
@@ -329,11 +330,13 @@ function Map_manage() {
 
     setIndex(index + 1);
 
-    //get max distance to cal zoom scale
-    var distance = api.getMaxDistance(posLocal, userPos_g);
+    //get zoom scale and center point
+    var parm = api.getCenterAndZoom(posLocal, userPos_g);
+
+    setCenter(parm[0]);
 
     //set zoom scale
-    setZoom(api.changeZoom(distance));
+    setZoom(parm[1]);
 
     ////get dstOffset, rawOffset to display target time
     await processTimeOffsetTimeZone(pos_user[0], pos_user[1]);
@@ -348,14 +351,16 @@ function Map_manage() {
 
     setUserPos(data);
 
-    setCenter(localPos);
-
-    //Calculate zoom based on the distance between local pos and userPos
+    //Calculate zoom and center point based on the distance between local pos and userPos
 
     if (data.length > 0) {
-      var distance = api.getMaxDistance(localPos, data);
+      var parm = api.getCenterAndZoom(localPos, data);
 
-      setZoom(api.changeZoom(distance));
+      //set center of the map
+      setCenter(parm[0]);
+
+      //set zoom scale
+      setZoom(parm[1]);
 
       ////get dstOffset, rawOffset to display target time
       await processTimeOffsetTimeZone(
@@ -364,6 +369,7 @@ function Map_manage() {
       );
     } else {
       //if data is empty
+      setCenter(localPos);
       setZoom(20);
       setIndex(1);
       dstOffset = null;
