@@ -41,7 +41,7 @@ export function MapContainer() {
 }
 
 //map component used to display map
-//input: center : center on the map;localPos=local position ;userPos array = position of user input; visble: display when visble ==true;
+//input: center : center on the map;localPos=local position ;userPos array = position of user input; visble: display map when visble ==true;
 
 function MapDisplay(props) {
   const makerList = props.userPos.map((item) => {
@@ -86,6 +86,7 @@ function User_Input_Display(props) {
   const refAddress = useRef(null); //ref of the input
   const [hovered, setHovered] = useState(false); //Popover visble
 
+  //user did not press enter
   var enter = false;
 
   const handle_mouseDown = (e) => {
@@ -97,10 +98,10 @@ function User_Input_Display(props) {
     //when mouse up ,we will determin what should we do
     console.log(enter);
     if (enter) {
-      //if you have already pressed enter and click search,we can search
+      //if you have already pressed enter and click search button,we can search
       await props.handle_search(refAddress.current.state.value);
     } else {
-      //if you only click search, we get local position
+      //if you only click search button, we will get local position
       await props.handle_getLocalPosition();
     }
 
@@ -108,7 +109,7 @@ function User_Input_Display(props) {
   };
 
   const handle_keyDown = (e) => {
-    //user press enter,then we set enter and we will not monitor key down
+    //user pressed enter,then we set enter=true and we will not monitor key down
     if (e.code == "Enter") {
       enter = true;
       window.removeEventListener("keydown", handle_keyDown);
@@ -211,6 +212,7 @@ function Map_manage() {
   const [modalVisble, setModalVisble] = useState(false); //if display error message dialog
   const [message, setMessage] = useState(""); // error message
 
+  //user press ok button in error message dialog
   const handle_ok = () => {
     setModalVisble(false);
   };
@@ -244,6 +246,7 @@ function Map_manage() {
     return;
   };
 
+  //get local position
   const getLocalPosition = async () => {
     setLoading(true);
 
@@ -269,7 +272,7 @@ function Map_manage() {
     return pos_local;
   };
 
-  //user only click search,we will get loacl posttion
+  //user only click search button,we will get loacl posttion
   const handle_getLocalPosition = async () => {
     setVisble(false);
     await getLocalPosition();
@@ -319,6 +322,7 @@ function Map_manage() {
     userPos_o.lng = pos_user[1];
     userPos_o.address = address;
 
+    //userPos can not be changed directly
     var userPos_g = userPos.slice(0);
     userPos_g.push(userPos_o);
     setUserPos(userPos_g);
@@ -334,10 +338,11 @@ function Map_manage() {
     ////get dstOffset, rawOffset to display target time
     await processTimeOffsetTimeZone(pos_user[0], pos_user[1]);
 
+    //display map
     setVisble(true);
   };
 
-  //the function used when user delete one or more position
+  //the function used when user delete one or more position from table list,callback function
   const handle_delete = async (data) => {
     setVisble(false);
 
@@ -425,7 +430,7 @@ const columns = [
 ];
 
 function TableList(props) {
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]); //user selected rows
 
   //delete item when user click delete button
   //input: user position array: props.data
